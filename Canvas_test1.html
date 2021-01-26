@@ -1,183 +1,19 @@
  <html>
-    <script type="text/javascript">
-	
-	
-	/*
-	** Ich hab 80% hiervon nicht geschrieben bitte danke. - Titan
-	** 
-	*/
-	
-    var canvas, ctx, flag = false,
-        prevX = 0,
-        currX = 0,
-        prevY = 0,
-        currY = 0,
-        dot_flag = false;
-
-    var x = "black",
-        y = 2,
-		bg = "white",
-		bgChosen = false;
-    
-    function init() {
-        canvas = document.getElementById('can');
-        ctx = canvas.getContext("2d");
-        w = canvas.width;
-        h = canvas.height;
-    
-        canvas.addEventListener("mousemove", function (e) {
-            findxy('move', e)
-        }, false);
-        canvas.addEventListener("mousedown", function (e) {
-            findxy('down', e)
-        }, false);
-        canvas.addEventListener("mouseup", function (e) {
-            findxy('up', e)
-        }, false);
-        canvas.addEventListener("mouseout", function (e) {
-            findxy('out', e)
-        }, false);
-    }
-    
-	// Set the color of the brush. The first time you pick a color it sets that as the background color.
-	// Unless you immediately start drawing, in that case the bg color is white.
-    function color(obj) {
-		if (obj.id == "eraser")
-		{
-			if (bgChosen)
-			{
-				x = bg;
-				y = 14;
-			}
-		}
-		else
-		{
-			if (!bgChosen)
-			{
-				fillBg(obj.id);
-			}
-			else
-			{
-				x = obj.id;
-				y = 2;
-			}
-		
-		}
-    
-    }
-    
-	///
-	function fillBg(color){
-				bg = color;
-				ctx.beginPath();
-				ctx.rect(0, 0, w, h);
-				ctx.fillStyle = color;
-				ctx.fill();
-				bgChosen = true;
-	}
-	
-    function draw() {
-		
-		// drawing without choosing a bg color sets the background to white
-		if (!bgChosen)
-		{
-			fillBg("white");
-		}
-		
-        ctx.beginPath();
-        ctx.moveTo(prevX, prevY);
-        ctx.lineTo(currX, currY);
-        ctx.strokeStyle = x;
-        ctx.lineWidth = y;
-        ctx.stroke();
-        ctx.closePath();
-    }
-    
-    function erase() {
-        var m = confirm("Want to clear");
-        if (m) {
-            ctx.clearRect(0, 0, w, h);
-            document.getElementById("canvasimg").style.display = "none";
-        }
-    }
-    
-    function save() {
-        document.getElementById("canvasimg").style.border = "2px solid";
-        var dataURL = canvas.toDataURL();
-        document.getElementById("canvasimg").src = dataURL;
-        document.getElementById("canvasimg").style.display = "inline";
-    }
-    
-    function findxy(res, e) {
-        if (res == 'down') {
-            prevX = currX;
-            prevY = currY;
-            currX = e.clientX - canvas.offsetLeft;
-            currY = e.clientY - canvas.offsetTop;
-    
-            flag = true;
-            dot_flag = true;
-            if (dot_flag) {
-                ctx.beginPath();
-                ctx.fillStyle = x;
-                ctx.fillRect(currX, currY, 2, 2);
-                ctx.closePath();
-                dot_flag = false;
-            }
-        }
-        if (res == 'up' || res == "out") {
-            flag = false;
-        }
-        if (res == 'move') {
-            if (flag) {
-                prevX = currX;
-                prevY = currY;
-                currX = e.clientX - canvas.offsetLeft;
-                currY = e.clientY - canvas.offsetTop;
-                draw();
-            }
-        }
-    }
-    </script>
-
-	<!-- Style sheet for images (and the main body because I wanted to test something) -->
-	<style>
-		body {
-			background-color: linen;
-		}
-		img {
-			position:absolute;
-			width:30px;
-			height:30px;
-			border:1px solid;
-		}
-		input{
-			position:absolute;
-		}
-	</style>
     <body onload="init()">
-        <canvas id="can" width="500" height="500" style="position:absolute;top:10%;left:10%;border:2px solid;"></canvas>
-		<!-- Wenn das mit den Bildern nicht geht, die sind im Ordner Icons -->
-		
-		<div style="position:absolute;top:12%;left:43%">Choose Color</div>
-		<img src="Icons\White64x64.png" style="top:15%;left:40%;" id="white" onclick="color(this)">
-		<img src="Icons\Black64x64.png" style="top:15%;left:42%;" id="black" onclick="color(this)">
-	
-		<img src="Icons\Blue64x64.png" style="top:15%;left:48%;" id="blue" onclick="color(this)">
-		<img src="Icons\Green64x64.png" style="top:15%;left:46%;" id="green" onclick="color(this)">
-		<img src="Icons\Red64x64.png" style="top:15%;left:44%;" id="red" onclick="color(this)">
-		
-		<img src="Icons\Yellow64x64.png" style="top:19%;left:44%;" id="yellow" onclick="color(this)">
-		<img src="Icons\Pink64x64.png" style="top:19%;left:46%;" id="pink" onclick="color(this)">
-
-
-		<img src="Icons\Eraser64x64.png" alt="Eraser" style="top:19%;left:48%;" id="eraser" onclick="color(this)">
-	
-	
-		<!-- This is for the save function. We don't really need it but this is the reason for that empty box on the right -->
-		<img id="canvasimg" style="position:absolute;top:10%;left:52%;" style="display:none;">
-		
-        <input type="button" value="save" id="btn" size="30" onclick="save()" style="top:70%;left:10%;">
-        <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="top:70%;left:15%;">
+      <script src="canvas.ts"></script>
+        <canvas id="can" width="400" height="400" style="position:absolute;top:10%;left:10%;border:2px solid;"></canvas>
+        <div style="position:absolute;top:12%;left:43%;">Choose Color</div>
+        <div style="position:absolute;top:15%;left:45%;width:10px;height:10px;background:green;border:2px solid;" id="green" onclick="color(this)"></div>
+        <div style="position:absolute;top:15%;left:46%;width:10px;height:10px;background:blue;border:2px solid;" id="blue" onclick="color(this)"></div>
+        <div style="position:absolute;top:15%;left:47%;width:10px;height:10px;background:red;border:2px solid;" id="red" onclick="color(this)"></div>
+        <div style="position:absolute;top:17%;left:45%;width:10px;height:10px;background:yellow;border:2px solid;" id="yellow" onclick="color(this)"></div>
+        <div style="position:absolute;top:17%;left:46%;width:10px;height:10px;background:orange;border:2px solid;" id="orange" onclick="color(this)"></div>
+        <div style="position:absolute;top:17%;left:47%;width:10px;height:10px;background:black;border:2px solid;" id="black" onclick="color(this)"></div>
+        <div style="position:absolute;top:15%;left:44%;width:10px;height:10px;background:white;border:2px solid;" id="white" onclick="color(this)"></div>
+        <div style="position:absolute;top:20%;left:43%;">Eraser</div>
+        <div style="position:absolute;top:22%;left:45%;width:15px;height:15px;background:white;border:2px solid;" id="eraser" onclick="color(this)"></div>
+        <img id="canvasimg" style="position:absolute;top:10%;left:52%;" style="display:none;">
+        <input type="button" value="save" id="btn" size="30" onclick="save()" style="position:absolute;top:55%;left:10%;">
+        <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="position:absolute;top:55%;left:15%;">
     </body>
-    </html>
+  </html>
