@@ -40,31 +40,38 @@ function init() {
 
 // Set the color of the brush. The first time you pick a color it sets that as the background color.
 // Unless you immediately start drawing, in that case the bg color is white.
-function color(obj) {
-if (obj.id == "eraser")
+function color(obj)
 {
-  if (bgChosen)
+  if (obj.id == "eraser")
   {
-    x = bg;
-    y = 14;
+    if (bgChosen)
+    {
+      x = bg;
+      y = 14;
+    }
+  }
+  else
+  {
+    if (!bgChosen)
+    {
+      fillBg(obj.id);
+    }
+    else
+    {
+      x = obj.id;
+      y = 2;
+    }
   }
 }
-else
+
+function fillBg(color)
 {
-  x = obj.id;
-  y = 2;
-  if (!bgChosen)
-  {
-    bg = obj.id;
-    ctx.beginPath();
-    ctx.rect(0, 0, w, h);
-    ctx.fillStyle = obj.id;
-    ctx.fill();
-    bgChosen = true;
-  }
-
-}
-
+  bg = color;
+  ctx.beginPath();
+  ctx.rect(0, 0, w, h);
+  ctx.fillStyle = color;
+  ctx.fill();
+  bgChosen = true;
 }
 
 function draw() {
@@ -72,8 +79,7 @@ function draw() {
 // drawing without choosing a bg color sets the background to white
 if (!bgChosen)
 {
-  bg = "white";
-  bgChosen = true;
+  fillBg("white");
 }
 
     ctx.beginPath();
