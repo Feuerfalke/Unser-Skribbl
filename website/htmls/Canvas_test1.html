@@ -1,0 +1,43 @@
+ <html>
+  <style>
+    body
+    {
+       background-color: linen;
+    }
+    img
+    {
+       position:absolute;
+       width:30px;
+       height:30px;
+       border:1px solid;
+    }
+    input
+    {
+       position:absolute;
+    }
+    </style>
+    <body onload="init()">
+      <script src="../typescripts/canvas.ts"></script>
+        <canvas id="can" width="500" height="500" style="position:absolute;top:10%;left:10%;border:2px solid;"></canvas>
+        <!-- Wenn das mit den Bildern nicht geht, die sind im Ordner Icons -->
+
+        <div style="position:absolute;top:12%;left:43%">Choose Color</div>
+        <img src="../icons/colors/White64x64.png" style="top:15%;left:40%;" id="white" onclick="color(this)">
+        <img src="../icons/colors/Black64x64.png" style="top:15%;left:42%;" id="black" onclick="color(this)">
+
+        <img src="../icons/colors/Blue64x64.png" style="top:15%;left:48%;" id="blue" onclick="color(this)">
+        <img src="../icons/colors/DarkGreen64x64.png" style="top:15%;left:46%;" id="green" onclick="color(this)">
+        <img src="../icons/colors/Red64x64.png" style="top:15%;left:44%;" id="red" onclick="color(this)">
+
+        <img src="../icons/colors/Yellow64x64.png" style="top:19%;left:44%;" id="yellow" onclick="color(this)">
+        <img src="../icons/colors/Pink64x64.png" style="top:19%;left:46%;" id="pink" onclick="color(this)">
+
+
+        <img src="../Icons/Eraser64x64.png" alt="Eraser" style="top:19%;left:48%;" id="eraser" onclick="color(this)">
+
+        <img id="canvasimg" style="position:absolute;top:10%;left:52%;" style="display:none;">
+
+        <input type="button" value="save" id="btn" size="30" onclick="save()" style="top:70%;left:10%;">
+        <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="top:70%;left:15%;">
+    </body>
+  </html>
